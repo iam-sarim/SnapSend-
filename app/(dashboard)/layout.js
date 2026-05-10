@@ -10,7 +10,7 @@ function Layout({ children }) {
     <div>
       {/* Desktop sidebar */}
       <div className="h-full md:w-64 flex-col fixed inset-y-0 z-50 md:flex hidden">
-        <SideNav />
+        <SideNav closeSideBar={() => setSidebarOpen(false)} />
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -26,7 +26,7 @@ function Layout({ children }) {
         <div
           className={`relative w-64 h-full bg-white z-10 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <SideNav />
+          <SideNav closeSideBar={() => setSidebarOpen(false)} />
         </div>
       </div>
 

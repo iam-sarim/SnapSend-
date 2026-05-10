@@ -1,9 +1,13 @@
 "use client";
 import { File, Shield, Upload } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
 
 function SideNav({ closeSideBar }) {
+  const pathname = usePathname();
+
   const menuList = [
     {
       id: 1,
@@ -24,26 +28,27 @@ function SideNav({ closeSideBar }) {
       path: "/upgrade",
     },
   ];
-  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <div className="shadow-sm border-r border-gray-200 h-full">
       <div className="p-5 border-b border-gray-200">
         <Image src="/logo.svg" width={150} height={100} alt="Logo" />
       </div>
-      <div className="flex flex-col float-left w-full">
-        {menuList.map((item, index) => {
+      <div className="flex flex-col w-full">
+        {menuList.map((item) => {
+          const isActive = pathname === item.path;
           return (
-            <button
-              key={index}
-              className={`flex gap-2 p-4 px-6 hover:bg-gray-100 w-full text-gray-500 ${activeIndex === index ? "bg-blue-50 text-yellow-600" : null}`}
-              onClick={() => {
-                setActiveIndex(index);
-                closeSideBar();
-              }}
+            <Link
+              key={item.id}
+              href={item.path}
+              onClick={closeSideBar}
+              className={`flex gap-2 p-4 px-6 hover:bg-gray-100 w-full text-gray-500 transition ${
+                isActive ? "bg-blue-50 text-yellow-600 font-medium" : ""
+              }`}
             >
               <item.icon />
               <h2>{item.name}</h2>
-            </button>
+            </Link>
           );
         })}
       </div>

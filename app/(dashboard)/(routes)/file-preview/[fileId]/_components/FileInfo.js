@@ -1,0 +1,33 @@
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
+function FileInfo({ file }) {
+  const [fileType, setFileType] = useState();
+
+  useEffect(() => {
+    file && setFileType(file?.fileType.split("/")[0]);
+    console.log(fileType);
+  }, [file]);
+
+  return (
+    file && (
+      <div className="text-center border flex justify-center m-4 flex-col items-center p-2 border-amber-300">
+        <Image
+          src={fileType == "image" ? file?.fileUrl : "/file.png"}
+          alt={
+            fileType == "image" ? file?.fileName || "file preview" : "file icon"
+          }
+          width={200}
+          height={200}
+          className="h-50 rounded-md object-contain"
+        />
+        <div className="">
+          <h2>{file.fileName}</h2>
+          <h2 className="text-gray-400 text-[13px]"></h2>
+        </div>
+      </div>
+    )
+  );
+}
+
+export default FileInfo;
