@@ -12,13 +12,17 @@ function FileItem({ file }) {
   const hasPassword = file?.password && file.password.length > 0;
   const isUnlocked = !hasPassword || file.password === password;
 
-  // Derive a display name from whatever the uploader stored
+  // Show full name if available, otherwise first part of email, otherwise "Someone"
   const displayName =
-    file?.userName && file.userName.trim().length > 0
+    file?.userName &&
+    file.userName.trim().length > 0 &&
+    !file.userName.includes("@")
       ? file.userName
-      : file?.userEmail
-        ? file.userEmail.split("@")[0]
-        : "Someone";
+      : file?.userName && file.userName.includes("@")
+        ? file.userName.split("@")[0]
+        : file?.userEmail
+          ? file.userEmail.split("@")[0]
+          : "Someone";
 
   const handleDownload = async () => {
     if (!isUnlocked) {
@@ -28,7 +32,6 @@ function FileItem({ file }) {
 
     setDownloading(true);
     try {
-      // Fetch the file as a blob so it downloads directly — no new tab opened
       const response = await fetch(file.fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const blob = await response.blob();
@@ -43,7 +46,6 @@ function FileItem({ file }) {
       URL.revokeObjectURL(blobUrl);
     } catch (err) {
       console.error("Download error:", err);
-      // Fallback: open in new tab if blob download fails (e.g. CORS)
       window.open(file.fileUrl, "_blank");
     } finally {
       setDownloading(false);

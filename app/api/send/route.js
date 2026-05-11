@@ -3,10 +3,6 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// NOTE: Resend's free plan with "onboarding@resend.dev" only allows sending to
-// your own Resend-registered email. To send to ANY email address, you must:
-//   1. Verify your own domain at resend.com/domains (e.g. sarimawan.com)
-//   2. Add RESEND_FROM_EMAIL=noreply@sarimawan.com to your .env.local
 const FROM_EMAIL =
   process.env.RESEND_FROM_EMAIL || "File Sharing App <onboarding@resend.dev>";
 
@@ -30,18 +26,19 @@ export async function POST(req) {
 
     if (error) {
       console.error("Resend error:", error);
-      const userMessage =
-        error.message?.toLowerCase().includes("not allowed") ||
-        error.message?.toLowerCase().includes("can only send") ||
-        error.message?.toLowerCase().includes("testing")
-          ? "Your Resend account is in test mode — emails can only be sent to your registered Resend email. Verify a domain at resend.com/domains to send to any address."
-          : error.message || "Failed to send email.";
-      return Response.json({ error: userMessage }, { status: 500 });
+      // Always return a friendly message — domain not verified yet
+      return Response.json(
+        { error: "couldn't find email. copy the link instead" },
+        { status: 500 },
+      );
     }
 
     return Response.json(data);
   } catch (err) {
     console.error("Caught error:", err);
-    return Response.json({ error: err.message }, { status: 500 });
+    return Response.json(
+      { error: "couldn't find email. copy the link instead" },
+      { status: 500 },
+    );
   }
 }

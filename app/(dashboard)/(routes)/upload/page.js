@@ -7,6 +7,7 @@ import { generateRandomString } from "@/app/_utils/GenerateRandomString";
 import { useRouter } from "next/navigation";
 import { Toast } from "@/app/_components/Toast";
 import { useToast } from "@/app/_utils/useToast";
+import { getBaseUrl } from "@/app/_utils/GetBaseUrl";
 
 const Upload = () => {
   const { user } = useUser();
@@ -80,6 +81,7 @@ const Upload = () => {
 
   const saveInfo = async (file, fileUrl) => {
     const docId = generateRandomString();
+    const baseUrl = getBaseUrl();
 
     const { error } = await supabase.from("uploadedFile").insert([
       {
@@ -92,7 +94,7 @@ const Upload = () => {
         userName:
           user?.fullName || user?.primaryEmailAddress?.emailAddress || "User",
         password: "",
-        shortUrl: process.env.NEXT_PUBLIC_BASE_URL + "/f/" + docId,
+        shortUrl: `${baseUrl}/f/${docId}`,
       },
     ]);
 
