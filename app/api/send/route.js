@@ -1,29 +1,47 @@
 import { EmailTemplate } from "../../_components/email-template";
 import { Resend } from "resend";
-import { NextResponse } from "next/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// NOTE: Resend's free plan with "onboarding@resend.dev" only allows sending to
+// your own Resend-registered email. To send to ANY email address, you must:
+//   1. Verify your own domain at resend.com/domains (e.g. sarimawan.com)
+//   2. Add RESEND_FROM_EMAIL=noreply@sarimawan.com to your .env.local
+const FROM_EMAIL =
+  process.env.RESEND_FROM_EMAIL || "File Sharing App <onboarding@resend.dev>";
+
 export async function POST(req) {
-  console.log("API KEY:", process.env.RESEND_API_KEY);
   const response = await req.json();
+
+  if (!response.emailToSend) {
+    return Response.json(
+      { error: "No email address provided" },
+      { status: 400 },
+    );
+  }
+
   try {
     const { data, error } = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to: ["sarimkhan12345678910@gmail.com"],
-      subject: response?.fullName + "share file with you",
+      from: FROM_EMAIL,
+      to: [response.emailToSend],
+      subject: `${response.userName || "Someone"} shared a file with you`,
       react: EmailTemplate({ response }),
     });
 
-    console.log("Resend response:", { data, error }); // 👈 check response
-
     if (error) {
-      return Response.json({ error }, { status: 500 });
+      console.error("Resend error:", error);
+      const userMessage =
+        error.message?.toLowerCase().includes("not allowed") ||
+        error.message?.toLowerCase().includes("can only send") ||
+        error.message?.toLowerCase().includes("testing")
+          ? "Your Resend account is in test mode — emails can only be sent to your registered Resend email. Verify a domain at resend.com/domains to send to any address."
+          : error.message || "Failed to send email.";
+      return Response.json({ error: userMessage }, { status: 500 });
     }
 
     return Response.json(data);
-  } catch (error) {
-    console.error("CAUGHT ERROR:", error); // 👈 check error
-    return Response.json({ error }, { status: 500 });
+  } catch (err) {
+    console.error("Caught error:", err);
+    return Response.json({ error: err.message }, { status: 500 });
   }
 }

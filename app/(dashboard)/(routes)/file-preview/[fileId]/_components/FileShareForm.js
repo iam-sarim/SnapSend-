@@ -3,97 +3,135 @@ import { Copy } from "lucide-react";
 import React, { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 
-const FileShareForm = ({ file, onPasswordSave }) => {
+const FileShareForm = ({ file, onPasswordSave, showToast }) => {
   const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState();
-  const [toast, setToast] = useState("");
+  const [email, setEmail] = useState("");
+  const [sending, setSending] = useState(false);
   const { user } = useUser();
 
-  const sendEmail = () => {
+  const sendEmail = async () => {
+    if (!email) {
+      showToast("Please enter an email address.", "error");
+      return;
+    }
+    setSending(true);
     const data = {
       emailToSend: email,
-      userName: user?.fullName,
+      userName:
+        user?.fullName || user?.primaryEmailAddress?.emailAddress || "Someone",
       fileName: file.fileName,
       fileSize: file.fileSize,
       fileType: file.fileType,
       shortUrl: file.shortUrl,
     };
-    GlobalApi.SendEmail(data).then((res) => {
-      setToast({
-        status: "success",
-        msg: "Email sent Successfully!",
-      });
-    });
+    try {
+      await GlobalApi.SendEmail(data);
+      showToast("Email sent successfully!", "success");
+      setEmail("");
+    } catch (err) {
+      const msg =
+        err?.response?.data?.error || "Failed to send email. Please try again.";
+      showToast(msg, "error");
+    } finally {
+      setSending(false);
+    }
   };
 
   const onCopyClick = () => {
     navigator.clipboard.writeText(file.shortUrl);
-    setToast({
-      status: "copied",
-      msg: "Url Copied!",
-    });
+    showToast("Link copied to clipboard!", "copied");
   };
+
+  const handlePasswordSave = async () => {
+    const result = await onPasswordSave(password);
+    if (result?.success) {
+      showToast("Password saved successfully!", "success");
+    } else {
+      showToast(result?.error || "Failed to save password.", "error");
+    }
+  };
+
   return (
     file && (
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3 border border-gray-200 rounded-md p-5">
+        {/* Short URL */}
         <div>
-          <label className="text=[14px] text-gray-400">Short Url</label>
-          <div className="flex gap-5 p-2 border rounded-md justify-between">
+          <label className="text-[14px] text-gray-400">Share Link</label>
+          <div className="flex gap-3 p-2 border rounded-md justify-between items-center mt-1">
             <input
               type="text"
               value={file.shortUrl}
               disabled
-              className="disable:text-gray-400 bg-transparent outline-none w-full"
+              className="text-gray-500 bg-transparent outline-none w-full text-sm"
             />
             <Copy
-              className="text-gray-400 hover:text-gray-600 cursor-pointer"
-              onClick={() => onCopyClick()}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer shrink-0"
+              onClick={onCopyClick}
             />
           </div>
-          <div className="gap-3 flex mt-5">
-            <input type="checkbox" onChange={(e) => setIsPasswordEnabled()} />
-            <label>Enable Password?</label>
-          </div>
+        </div>
 
-          {isPasswordEnabled ? (
-            <div className="flex gap-3 items-center">
-              <div className="border rounded-md w-full p-2">
-                <input
-                  type="password"
-                  defaultValue={file.password}
-                  className="disabled:text-gray-500 bg-transparent outline-none"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <button
-                className="p-2 bg-amber-300 hover:bg-amber-200 text-white rounded-md disabled:bg-gray-300"
-                disabled={password?.length}
-                onClick={() => onPasswordSave(password)}
-              >
-                Save
-              </button>
-            </div>
-          ) : null}
+        {/* Password Toggle */}
+        <div className="flex gap-3 items-center mt-2">
+          <input
+            type="checkbox"
+            id="enablePassword"
+            checked={isPasswordEnabled}
+            onChange={(e) => setIsPasswordEnabled(e.target.checked)}
+            className="cursor-pointer"
+          />
+          <label
+            htmlFor="enablePassword"
+            className="cursor-pointer text-sm text-gray-600"
+          >
+            Enable Password Protection
+          </label>
+        </div>
 
-          <div className="border rounded-md p-3 mt-5">
-            <label className="text-[14px] text-gray-500">
-              Send File to email
-            </label>
-            <div className="border rounded-md p-2">
+        {/* Password Input */}
+        {isPasswordEnabled && (
+          <div className="flex gap-3 items-center">
+            <div className="border rounded-md w-full p-2">
               <input
-                type="email"
-                placeholder="example@gmail.com"
-                className="bg-transparent outline-none"
+                type="password"
+                placeholder="Enter a password"
+                defaultValue={file.password}
+                className="bg-transparent outline-none w-full text-sm"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button
-              className="p-2 disabled:bg-gray-300 bg-amber-300 text-white hover:bg-amber-400 w-full mt-2 rounded-md"
-              onClick={() => sendEmail()}
+              className="p-2 bg-amber-300 hover:bg-amber-400 text-white rounded-md disabled:bg-gray-300 text-sm whitespace-nowrap cursor-pointer disabled:cursor-not-allowed transition"
+              disabled={!password?.length}
+              onClick={handlePasswordSave}
             >
-              Send Email
+              Save
             </button>
           </div>
+        )}
+
+        {/* Send Email */}
+        <div className="border rounded-md p-3 mt-2">
+          <label className="text-[14px] text-gray-500 font-medium">
+            Send File via Email
+          </label>
+          <div className="border rounded-md p-2 mt-2">
+            <input
+              type="email"
+              value={email}
+              placeholder="example@gmail.com"
+              className="bg-transparent outline-none w-full text-sm"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <button
+            className="p-2 bg-amber-300 text-white hover:bg-amber-400 w-full mt-2 rounded-md text-sm disabled:bg-gray-300 cursor-pointer disabled:cursor-not-allowed transition"
+            disabled={!email || sending}
+            onClick={sendEmail}
+          >
+            {sending ? "Sending…" : "Send Email"}
+          </button>
         </div>
       </div>
     )

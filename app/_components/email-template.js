@@ -15,21 +15,21 @@ export const EmailTemplate = ({ response }) => {
   return (
     <Html>
       <Head />
-      <Preview>You have received a file from File Sharing App</Preview>
+      <Preview>You have received a file from {response.userName}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={heading}>File Sharing App</Heading>
+          <Heading style={heading}>📁 File Sharing App</Heading>
           <Hr />
-          <Text style={text}>Hi {firstName},</Text>
+          <Text style={text}>Hi there,</Text>
           <Text style={text}>
-            Someone has shared a file with you. Click the button below to
-            download it.
+            <strong>{response.userName}</strong> has shared a file with you.
+            Click the button below to download it.
           </Text>
           <Text style={text}>
             <b>File Name:</b> {response.fileName}
           </Text>
           <Text style={text}>
-            <b>File Size:</b> {response.fileSize}
+            <b>File Size:</b> {(response.fileSize / 1024).toFixed(1)} KB
           </Text>
           <Text style={text}>
             <b>File Type:</b> {response.fileType}
@@ -74,7 +74,7 @@ const text = {
 };
 
 const button = {
-  backgroundColor: "#007bff",
+  backgroundColor: "#f59e0b",
   color: "#ffffff",
   padding: "12px 24px",
   borderRadius: "6px",
