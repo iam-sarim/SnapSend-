@@ -7,7 +7,7 @@ export default function Page() {
       {/* Left - Image (hidden on mobile/tablet) */}
       <div className="hidden lg:flex w-1/2">
         <Image
-          src="/bg.jpg"
+          src="/bg.png"
           alt="Login visual"
           width={1200}
           height={800}

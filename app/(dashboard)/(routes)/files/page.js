@@ -58,12 +58,12 @@ const FilesPage = () => {
     <div className="p-5 px-8 md:px-16">
       <Toast toasts={toasts} />
       <h2 className="text-[20px] text-center m-5">
-        Your <strong className="text-yellow-500">Uploaded</strong> Files
+        Your <strong className="text-indigo-600">Uploaded</strong> Files
       </h2>
 
       {loading ? (
         <div className="flex justify-center mt-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-400" />
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600" />
         </div>
       ) : files.length === 0 ? (
         <div className="text-center mt-20 text-gray-400">
@@ -71,7 +71,7 @@ const FilesPage = () => {
           <p className="text-lg">No files uploaded yet.</p>
           <Link
             href="/upload"
-            className="mt-4 inline-block bg-amber-400 text-white px-6 py-2 rounded-full text-sm hover:bg-amber-500 cursor-pointer"
+            className="mt-4 inline-block bg-indigo-600 text-white px-6 py-2 rounded-full text-sm hover:bg-indigo-500 cursor-pointer"
           >
             Upload a File
           </Link>
@@ -95,7 +95,7 @@ const FilesPage = () => {
                   className="border-b hover:bg-gray-50 transition"
                 >
                   <td className="p-3 flex items-center gap-2">
-                    <File className="h-4 w-4 text-amber-400 shrink-0" />
+                    <File className="h-4 w-4 text-indigo-600 shrink-0" />
                     <span className="truncate max-w-[180px]">
                       {file.fileName}
                     </span>
@@ -117,7 +117,7 @@ const FilesPage = () => {
                     <div className="flex gap-3 items-center">
                       <Link
                         href={`/file-preview/${file.id}`}
-                        className="text-amber-500 hover:text-amber-600 cursor-pointer"
+                        className="text-indigo-600 hover:text-indigo-600 cursor-pointer"
                         title="View / Share"
                       >
                         <Link2 className="h-4 w-4" />

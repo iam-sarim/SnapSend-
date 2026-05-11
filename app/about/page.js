@@ -2,9 +2,9 @@ import Header from "../_components/Header";
 import Link from "next/link";
 
 export const metadata = {
-  title: "About Us – FileShare",
+  title: "About Us – SnapSend",
   description:
-    "Learn about FileShare – the simplest way to upload, manage, and share files with anyone.",
+    "Learn about SnapSend – the simplest way to upload, manage, and share files with anyone.",
 };
 
 const features = [
@@ -150,16 +150,16 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-indigo-50 to-white py-20 sm:py-28">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-4 py-1.5 text-xs font-semibold text-indigo-700 mb-6">
+          {/* <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-4 py-1.5 text-xs font-semibold text-indigo-700 mb-6">
             <span className="size-1.5 rounded-full bg-indigo-500 inline-block" />
             About FileShare
-          </span>
+          </span> */}
           <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
             The simplest way to{" "}
             <span className="text-indigo-600">share any file</span> with anyone
           </h1>
           <p className="mt-6 text-lg text-gray-500 leading-relaxed max-w-2xl mx-auto">
-            FileShare was built with one goal: make file sharing effortless. No
+            SnapSend was built with one goal: make file sharing effortless. No
             complicated setup, no cluttered interfaces — just upload, share, and
             move on.
           </p>
@@ -187,15 +187,15 @@ export default function AboutPage() {
                 We&apos;ve all been there — trying to send a large file over
                 email only to be told it&apos;s too big, or fumbling through
                 confusing cloud storage tools just to share a single document.
-                FileShare solves that problem cleanly and simply.
+                SnapSend solves that problem cleanly and simply.
               </p>
               <p className="mt-4 text-gray-500 leading-relaxed">
                 Whether you&apos;re a freelancer sending design files to a
                 client, a student sharing lecture notes, or a team collaborating
-                on a project — FileShare gives you a fast, secure, and reliable
+                on a project — SnapSend gives you a fast, secure, and reliable
                 way to move files between people.
               </p>
-              <div className="mt-8 flex flex-wrap gap-6">
+              {/* <div className="mt-8 flex flex-wrap gap-6">
                 {[
                   { label: "Files Shared", value: "10K+" },
                   { label: "Happy Users", value: "2K+" },
@@ -208,7 +208,7 @@ export default function AboutPage() {
                     <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Visual card */}
@@ -322,10 +322,6 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-white sm:text-4xl">
             Ready to share your first file?
           </h2>
-          <p className="mt-4 text-indigo-200">
-            Join thousands of users who trust FileShare every day. No credit
-            card required.
-          </p>
           <div className="mt-8 flex justify-center gap-4 flex-wrap">
             <Link
               href="/upload"
@@ -347,7 +343,7 @@ export default function AboutPage() {
       <footer className="bg-gray-900 py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} FileShare. All rights reserved.
+            © {new Date().getFullYear()} SnapSend. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-gray-400">
             <Link href="/" className="hover:text-white transition">

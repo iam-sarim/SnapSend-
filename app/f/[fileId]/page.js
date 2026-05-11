@@ -34,11 +34,17 @@ function FileView({ params }) {
   return (
     <div className="bg-gray-100 min-h-screen w-full flex justify-center items-center flex-col gap-4 p-5">
       <Link href="/">
-        <Image src="/logo.svg" alt="App logo" width={150} height={150} />
+        <Image
+          src="/logo.svg"
+          alt="App logo"
+          width={110}
+          height={40}
+          className="rounded-xl"
+        />
       </Link>
 
       {loading && (
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-amber-400" />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-400" />
       )}
 
       {notFound && !loading && (

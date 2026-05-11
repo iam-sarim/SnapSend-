@@ -4,9 +4,15 @@ import React from "react";
 
 function FilePreview({ file, removeFile }) {
   return (
-    <div className="flex items-center gap-2 justify-between mt-5 border rounded-md border-yellow-300 p-2">
-      <div className="flex items-center p-2 ">
-        <Image src="/file.png" width={50} height={50} alt="file" />
+    <div className="flex items-center gap-2 justify-between mt-5 border rounded-md border-indigo-300 p-2">
+      <div className="flex items-center p-2 gap-2.5">
+        <Image
+          src="/file.svg"
+          width={50}
+          height={50}
+          alt="file"
+          className="text-indigo-600"
+        />
         <div className="text-left">
           <h2>{file.name}</h2>
           <h2 className="text-[14px] text-gray-400">

@@ -4,7 +4,7 @@ import constant from "../_utils/Constant";
 
 function Hero() {
   return (
-    <section className="bg-gradient-to-b from-white to-indigo-50 lg:grid lg:min-h-[calc(100vh-64px)] lg:place-content-center">
+    <section className="bg-gradient-to-b from-white to-indigo-50 grid min-h-[calc(100vh-64px)] place-content-center">
       <div className="mx-auto w-screen max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
         <div className="mx-auto max-w-2xl text-center">
           {/* Badge */}

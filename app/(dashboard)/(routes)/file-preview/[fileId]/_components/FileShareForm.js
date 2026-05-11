@@ -54,7 +54,7 @@ const FileShareForm = ({ file, onPasswordSave, showToast }) => {
 
   return (
     file && (
-      <div className="flex flex-col gap-3 border border-gray-200 rounded-md p-5">
+      <div className="flex flex-col gap-3 border border-indigo-300 rounded-md p-5">
         {/* Short URL */}
         <div>
           <label className="text-[14px] text-gray-400">Share Link</label>
@@ -102,7 +102,7 @@ const FileShareForm = ({ file, onPasswordSave, showToast }) => {
               />
             </div>
             <button
-              className="p-2 bg-amber-300 hover:bg-amber-400 text-white rounded-md disabled:bg-gray-300 text-sm whitespace-nowrap cursor-pointer disabled:cursor-not-allowed transition"
+              className="p-2 bg-indigo-300 hover:bg-indigo-400 text-white rounded-md disabled:bg-gray-300 text-sm whitespace-nowrap cursor-pointer disabled:cursor-not-allowed transition"
               disabled={!password?.length}
               onClick={handlePasswordSave}
             >
@@ -126,7 +126,7 @@ const FileShareForm = ({ file, onPasswordSave, showToast }) => {
             />
           </div>
           <button
-            className="p-2 bg-amber-300 text-white hover:bg-amber-400 w-full mt-2 rounded-md text-sm disabled:bg-gray-300 cursor-pointer disabled:cursor-not-allowed transition"
+            className="p-2 bg-indigo-300 text-white hover:bg-indigo-400 w-full mt-2 rounded-md text-sm disabled:bg-gray-300 cursor-pointer disabled:cursor-not-allowed transition"
             disabled={!email || sending}
             onClick={sendEmail}
           >

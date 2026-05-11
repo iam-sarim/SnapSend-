@@ -145,7 +145,7 @@ function FileInfo({ file }) {
   if (!file) return null;
 
   return (
-    <div className="text-center border flex justify-center m-4 flex-col items-center p-4 border-amber-300 rounded-md">
+    <div className="text-center border flex justify-center m-4 flex-col items-center p-4 border-indigo-300 rounded-md">
       <div className="flex items-center justify-center h-[200px] w-full">
         {renderFilePreview(file)}
       </div>

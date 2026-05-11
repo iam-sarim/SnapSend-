@@ -15,10 +15,10 @@ function TopHeader({ onMenuClick }) {
       </button>
       <Image
         src="/logo.svg"
-        width={120}
-        height={80}
+        width={110}
+        height={40}
         alt="Logo"
-        className="md:hidden"
+        className="md:hidden rounded-xl"
       />
       <UserButton afterSignOutUrl="/" />
     </div>

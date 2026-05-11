@@ -56,8 +56,8 @@ function FileItem({ file }) {
         <div className="p-6 rounded-md bg-white flex flex-col items-center shadow-md min-w-[300px]">
           <div className="text-center flex-col gap-3 items-center flex">
             <h2 className="text-[20px] text-gray-600">
-              <strong className="text-amber-400">{displayName}</strong> shared a
-              file with you
+              <strong className="text-indigo-600">{displayName}</strong> shared
+              a file with you
             </h2>
             <h2 className="text-[10px] text-gray-400">
               Find file details below
@@ -79,7 +79,7 @@ function FileItem({ file }) {
               <div className="flex flex-col items-center gap-1 w-full">
                 <input
                   type="password"
-                  className="p-2 border rounded-md text-[14px] mt-3 text-center outline-amber-400 w-full"
+                  className="p-2 border rounded-md text-[14px] mt-3 text-center outline-indigo-400 w-full"
                   placeholder="Enter password to access"
                   value={password}
                   onChange={(e) => {
@@ -98,7 +98,7 @@ function FileItem({ file }) {
             <button
               onClick={handleDownload}
               disabled={downloading}
-              className="flex gap-2 p-2 bg-amber-300 text-white rounded-full w-full items-center hover:bg-amber-400
+              className="flex gap-2 p-2 bg-indigo-600 text-white rounded-full w-full items-center hover:bg-indigo-500
                 text-[14px] mt-3 text-center justify-center transition cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <Download className="h-4 w-4" />

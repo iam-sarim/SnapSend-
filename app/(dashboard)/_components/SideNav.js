@@ -21,18 +21,18 @@ function SideNav({ closeSideBar }) {
       icon: File,
       path: "/files",
     },
-    {
-      id: 3,
-      name: "Upgrade",
-      icon: Shield,
-      path: "/upgrade",
-    },
   ];
 
   return (
     <div className="bg-white shadow-sm border-r border-gray-100 h-full flex flex-col">
       <div className="p-5 border-b border-gray-100">
-        <Image src="/logo.svg" width={150} height={100} alt="Logo" />
+        <Image
+          src="/logo.svg"
+          alt="App logo"
+          width={110}
+          height={40}
+          className="rounded-xl"
+        />
       </div>
       <nav className="flex flex-col w-full flex-1 py-3">
         {menuList.map((item) => {
